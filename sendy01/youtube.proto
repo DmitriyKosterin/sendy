@@ -1,0 +1,20 @@
+syntax = "proto3";
+option go_package = "/home/dancrim/work/sendy/sendy01/youtube";
+
+service YouTube {
+  rpc GetPlaylist (PlaylistRequest) returns (PlaylistResponse);
+}
+
+message PlaylistRequest {
+  string playlist_id = 1;
+}
+
+message Video {
+  string video_id = 1;
+  string title = 2;
+}
+
+message PlaylistResponse {
+  repeated Video videos = 1;
+}
+
