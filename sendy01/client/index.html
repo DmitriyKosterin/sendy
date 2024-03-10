@@ -18,9 +18,9 @@
     <ul id="itemList"></ul>
 
     <script>
-        const { YouTube } = require('./'); // Подставьте правильный путь к вашему сгенерированному файлу
+        const { YouTube } = require('./youtube'); // Подставьте правильный путь к вашему сгенерированному файлу
 
-        const grpcClient = new YouTube('http://localhost:50051');
+        const grpcClient = new YouTube.YouTubeClient('http://localhost:50051');
 
         async function refreshItemList() {
             const itemList = document.getElementById("itemList");
