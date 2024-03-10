@@ -14,11 +14,7 @@ type myYoutubeServer struct {
 }
 
 func (s *myYoutubeServer) GetPlaylist(ctx context.Context, in *youtube.PlaylistRequest) (*youtube.PlaylistResponse, error) {
-	// Реализовать обращение к YouTube API и возвращение данных
-	// Пример запроса к YouTube API: https://developers.google.com/youtube/v3/docs/playlistItems/list
 	log.Printf("Received playlist ID: %v", in.GetPlaylistId())
-	// Добавьте код для обращения к YouTube API здесь
-	// ...
 
 	res := youtube.GetVideoList(ctx, in.GetPlaylistId())
 
@@ -30,7 +26,7 @@ func (s *myYoutubeServer) GetPlaylist(ctx context.Context, in *youtube.PlaylistR
 }
 
 func main() {
-	lis, err := net.Listen("tcp", ":8080")
+	lis, err := net.Listen("tcp", ":50051")
 	if err != nil {
 		log.Fatalf("cannot create listener: %s", err)
 	}

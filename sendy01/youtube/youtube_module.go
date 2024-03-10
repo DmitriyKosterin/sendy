@@ -2,7 +2,6 @@ package youtube
 
 import (
 	"context"
-	"fmt"
 	"log"
 
 	"google.golang.org/api/option"
@@ -25,15 +24,9 @@ func GetVideoList(ctx context.Context, playlistID string) []string {
 		log.Fatalf("Unable to retrieve playlist items: %v", err)
 	}
 
-	fmt.Println("Названия видео в плейлисте:")
-
 	res := []string{}
 	for _, playlistItem := range response.Items {
 		title := playlistItem.Snippet.Title
-		videoID := playlistItem.Snippet.ResourceId.VideoId
-		videoURL := "https://www.youtube.com/watch?v=" + videoID
-
-		fmt.Printf("%s - %s\n", title, videoURL)
 		res = append(res, title)
 	}
 	return res

@@ -16,7 +16,7 @@ func main() {
 		log.Fatalf("error")
 	}
 
-	conn, err := grpc.Dial("localhost:8080", grpc.WithInsecure())
+	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure())
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -30,8 +30,7 @@ func main() {
 		log.Fatalf("could not get playlist: %v", err)
 	}
 
-	// Выведите полученные видео
 	for _, video := range r.GetVideos() {
-		log.Printf("Video ID: %v, Title: %v", video.GetVideoId(), video.GetTitle())
+		log.Printf("%v", video.GetTitle())
 	}
 }
