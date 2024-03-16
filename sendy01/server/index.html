@@ -1,0 +1,75 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gRPC HTML Form</title>
+    <script src="https://cdn.jsdelivr.net/npm/protobufjs/dist/protobuf.js"></script>
+    <script src="youtube/youtube_pb.js"></script> <!-- Замените на правильный путь к вашему сгенерированному файлу -->
+    <script src="youtube/youtube_grpc_web_pb.js"></script> <!-- Замените на правильный путь к вашему сгенерированному файлу -->
+</head>
+<body>
+    <h1>gRPC HTML Form</h1>
+    <form id="dataForm">
+        <label for="item">Введите элемент:</label>
+        <input type="text" id="item" name="item" required>
+        <button type="button" onclick="addItem()">Добавить</button>
+    </form>
+    <h2>Список элементов:</h2>
+    <ul id="itemList"></ul>
+
+    <script>
+        const { Youtube } = require('./youtube/youtube_grpc_web_pb.js'); // Подставьте правильный путь к вашему сгенерированному файлу
+
+        const grpcClient = new Youtube.YoutubeClient('http://localhost:50051');
+
+        async function addItem() {
+            const itemInput = document.getElementById("item");
+            const item = itemInput.value;
+
+            if (item.trim() === "") {
+                alert("Введите элемент");
+                return;
+            }
+
+            itemInput.value = "";
+
+            // Вызываем метод AddItem вашего gRPC-сервиса
+            const request = new Youtube.PlaylistRequest();
+            request.setPlaylistId(item);
+
+            grpcClient.addVideos(request, {}, (err, response) => {
+                if (response.getSuccess()) {
+                    // Обновляем список элементов после успешного добавления
+                    refreshItemList();
+                } else {
+                    alert("Ошибка при добавлении элемента");
+                }
+            });
+        }
+
+        async function refreshItemList() {
+            const itemList = document.getElementById("itemList");
+
+            // Вызываем метод GetItems вашего gRPC-сервиса
+            const request = new Youtube.PlaylistRequest();
+
+            grpcClient.getTitle(request, {}, (err, response) => {
+                const items = response.getVideosList();
+
+                // Обновляем список элементов
+                itemList.innerHTML = "";
+                items.forEach(item => {
+                    const li = document.createElement("li");
+                    li.textContent = item;
+                    itemList.appendChild(li);
+                });
+            });
+        }
+
+        // Загружаем список элементов при загрузке страницы
+        refreshItemList();
+    </script>
+</body>
+</html>
