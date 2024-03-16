@@ -9,7 +9,7 @@ import (
 )
 
 func GetVideoList(ctx context.Context, playlistID string) []string {
-	const apiKey = "AIzaSyBXrGVQZUEPuDkRRTGKkzpHGAMMa0MynE8"
+	const apiKey = "API_KEY"
 	//playlistID := "PL7TobRzJvhX0kcjEaPIJ66X5TluE31t1Z"
 
 	service, err := youtube.NewService(ctx, option.WithAPIKey(apiKey))
