@@ -28,18 +28,6 @@ func (s *myYoutubeServer) GetPlaylist(ctx context.Context, in *youtube.PlaylistR
 	return &youtube.PlaylistResponse{Videos: videoList}, nil
 }
 
-func handler(w http.ResponseWriter, r *http.Request) {
-	// Чтение содержимого файла index.html
-	content, err := os.ReadFile("index.html")
-	if err != nil {
-		http.Error(w, "Ошибка чтения файла", http.StatusInternalServerError)
-		return
-	}
-
-	// Отправка содержимого как ответ на запрос
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	w.Write(content)
-}
 
 func main() {
 	go func() {
@@ -58,9 +46,4 @@ func main() {
 		}
 	}()
 
-	// Запуск HTTP сервера на порту 8080
-	http.HandleFunc("/", handler)
-
-	fmt.Println("HTTP сервер запущен на http://localhost:8080")
-	http.ListenAndServe(":8080", nil)
 }
